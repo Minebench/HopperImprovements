@@ -73,7 +73,7 @@ public final class HopperImprovements extends JavaPlugin {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length > 0) {
-            if ("reload".equalsIgnoreCase(args[0]) && sender.hasPermission("pluginname.command.reload")) {
+            if ("reload".equalsIgnoreCase(args[0]) && sender.hasPermission("hopperimprovements.command.reload")) {
                 loadConfig();
                 sender.sendMessage(ChatColor.YELLOW + "Config reloaded!");
                 return true;
