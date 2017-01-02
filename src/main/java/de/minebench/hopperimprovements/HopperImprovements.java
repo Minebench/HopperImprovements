@@ -24,12 +24,15 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public final class HopperImprovements extends JavaPlugin {
 
     private InventoryMoveItemListener inventoryMoveItemListener;
     private boolean debug;
+    private final List<RegisteredListener> stoppedListener = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -51,9 +54,14 @@ public final class HopperImprovements extends JavaPlugin {
             for (RegisteredListener listener : InventoryMoveItemEvent.getHandlerList().getRegisteredListeners()) {
                 if (listener.getPlugin() != this) {
                     InventoryMoveItemEvent.getHandlerList().unregister(listener);
+                    stoppedListener.add(listener);
                     getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
                 }
             }
+        } else {
+            InventoryMoveItemEvent.getHandlerList().registerAll(stoppedListener);
+            getLogger().log(Level.INFO, "Registered " + stoppedListener.size() + " stopped InventoryMoveItemEvent listeners!");
+            stoppedListener.clear();
         }
 
         if (inventoryMoveItemListener != null) {
