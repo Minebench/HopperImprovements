@@ -77,7 +77,9 @@ public class InventoryMoveItemListener implements Listener {
     public void onInventoryMoveMonitor(InventoryMoveItemEvent event) {
         // Register the stopped listeners
         if (stoppedListener.size() > 0) {
-            plugin.getLogger().log(Level.INFO, "Re-registering " + stoppedListener.size() + " listeners!");
+            if (plugin.isDebug()) {
+                plugin.getLogger().log(Level.INFO, "Re-registering " + stoppedListener.size() + " listeners!");
+            }
             Iterator<RegisteredListener> listeners = stoppedListener.iterator();
             while (listeners.hasNext()) {
                 RegisteredListener listener = listeners.next();
