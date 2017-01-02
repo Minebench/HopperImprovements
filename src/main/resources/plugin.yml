@@ -1,0 +1,19 @@
+name: ${project.name}
+version: '${minecraft.plugin.version}'
+main: de.minebench.hopperimprovements.HopperImprovements
+authors: [Phoenix616]
+description: ${project.description}
+commands:
+   hopperimprovements:
+      aliases: [hi]
+      description: Main HopperImprovements command
+      usage: /<command> [reload]
+      permission: hopperimprovements.command
+      permission-message: You don't have the permission <permission>
+permissions:
+   hopperimprovements.command:
+      description: Gives permission to the plugin command
+      default: op
+   hopperimprovements.command.reload:
+      description: Gives permission to reload the plugin
+      default: op
