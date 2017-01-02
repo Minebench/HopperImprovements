@@ -24,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HopperImprovements extends JavaPlugin {
 
-    private boolean cancelMoveEventIfFull = false;
     private InventoryMoveItemListener inventoryMoveItemListener;
     private boolean debug;
 
@@ -37,15 +36,12 @@ public final class HopperImprovements extends JavaPlugin {
     public void loadConfig() {
         saveDefaultConfig();
         reloadConfig();
-        if (cancelMoveEventIfFull != getConfig().getBoolean("cancel-move-event-if-full")) {
-            cancelMoveEventIfFull = getConfig().getBoolean("cancel-move-event-if-full");
-            if (cancelMoveEventIfFull) {
-                getServer().getPluginManager().registerEvents(inventoryMoveItemListener = new InventoryMoveItemListener(this), this);
-            } else if (inventoryMoveItemListener != null) {
-                inventoryMoveItemListener.unregister();
-            }
-        }
         debug = getConfig().getBoolean("debug");
+
+        if (inventoryMoveItemListener != null) {
+            inventoryMoveItemListener.unregister();
+        }
+        getServer().getPluginManager().registerEvents(inventoryMoveItemListener = new InventoryMoveItemListener(this), this);
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
