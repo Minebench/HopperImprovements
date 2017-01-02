@@ -3,7 +3,6 @@ version: '${minecraft.plugin.version}'
 main: de.minebench.hopperimprovements.HopperImprovements
 authors: [Phoenix616]
 description: ${project.description}
-load: POSTWORLD
 commands:
    hopperimprovements:
       aliases: [hi]
