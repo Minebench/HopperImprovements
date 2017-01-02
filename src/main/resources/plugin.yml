@@ -3,6 +3,7 @@ version: '${minecraft.plugin.version}'
 main: de.minebench.hopperimprovements.HopperImprovements
 authors: [Phoenix616]
 description: ${project.description}
+softdepend: [WorldGuard,LWC,ChestShop,GriefPrevention,Essentials,Factions]
 commands:
    hopperimprovements:
       aliases: [hi]
