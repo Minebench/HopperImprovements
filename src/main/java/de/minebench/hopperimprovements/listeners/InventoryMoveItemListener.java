@@ -33,14 +33,11 @@ public class InventoryMoveItemListener implements Listener {
     private final HopperImprovements plugin;
     private final boolean disableMoveEvent;
     private final boolean cancelMoveEventIfFull;
-    private final boolean stopMoveEventIfFull;
-    private final List<RegisteredListener> stoppedListener = new ArrayList<>();
 
     public InventoryMoveItemListener(HopperImprovements plugin) {
         this.plugin = plugin;
         disableMoveEvent = plugin.getConfig().getBoolean("disable-move-event");
         cancelMoveEventIfFull = plugin.getConfig().getBoolean("cancel-move-event-if-full");
-        stopMoveEventIfFull = plugin.getConfig().getBoolean("stop-move-event-if-full");
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -58,7 +55,7 @@ public class InventoryMoveItemListener implements Listener {
             return;
         }
 
-        if (!cancelMoveEventIfFull && !stopMoveEventIfFull) {
+        if (!cancelMoveEventIfFull) {
             // Should not edit event
             return;
         }
@@ -70,37 +67,9 @@ public class InventoryMoveItemListener implements Listener {
             return;
         }
 
-        if (stopMoveEventIfFull) {
-            for (RegisteredListener listener : event.getHandlers().getRegisteredListeners()) {
-                if (listener.getPlugin() != plugin) {
-                    event.getHandlers().unregister(listener);
-                    stoppedListener.add(listener);
-                }
-            }
-            if (plugin.isDebug()) {
-                plugin.getLogger().log(Level.INFO, "Stopped " + stoppedListener.size() + " other listeners!");
-            }
-        } else if (cancelMoveEventIfFull) {
-            event.setCancelled(true);
-            if (plugin.isDebug()) {
-                plugin.getLogger().log(Level.INFO, "Canceled the event. This way other plugins can ignore it as the destination is full");
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryMoveMonitor(InventoryMoveItemEvent event) {
-        // Register the stopped listeners
-        if (stoppedListener.size() > 0) {
-            if (plugin.isDebug()) {
-                plugin.getLogger().log(Level.INFO, "Re-registering " + stoppedListener.size() + " listeners!");
-            }
-            Iterator<RegisteredListener> listeners = stoppedListener.iterator();
-            while (listeners.hasNext()) {
-                RegisteredListener listener = listeners.next();
-                listeners.remove();
-                event.getHandlers().register(listener);
-            }
+        event.setCancelled(true);
+        if (plugin.isDebug()) {
+            plugin.getLogger().log(Level.INFO, "Cancelled the event. This way other plugins can ignore it as the destination is full");
         }
     }
 
