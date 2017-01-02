@@ -49,6 +49,7 @@ public class InventoryMoveItemListener implements Listener {
             for (RegisteredListener listener : event.getHandlers().getRegisteredListeners()) {
                 if (listener.getPlugin() != plugin) {
                     event.getHandlers().unregister(listener);
+                    plugin.addStoppedListener(listener);
                     if (plugin.isDebug()) {
                         plugin.getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
                     }

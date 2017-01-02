@@ -85,4 +85,8 @@ public final class HopperImprovements extends JavaPlugin {
     public boolean isDebug() {
         return debug;
     }
+
+    public void addStoppedListener(RegisteredListener listener) {
+        stoppedListener.add(listener);
+    }
 }
