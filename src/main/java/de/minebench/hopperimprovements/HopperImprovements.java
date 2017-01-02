@@ -42,6 +42,11 @@ public final class HopperImprovements extends JavaPlugin {
         reloadConfig();
         debug = getConfig().getBoolean("debug");
 
+        getLogger().log(Level.INFO, "Config:");
+        for (String key : getConfig().getKeys(true)) {
+            getLogger().log(Level.INFO, " " + key + ": " + getConfig().get(key));
+        }
+
         if (getConfig().getBoolean("disable-move-event")) {
             for (RegisteredListener listener : InventoryMoveItemEvent.getHandlerList().getRegisteredListeners()) {
                 if (listener.getPlugin() != this) {
