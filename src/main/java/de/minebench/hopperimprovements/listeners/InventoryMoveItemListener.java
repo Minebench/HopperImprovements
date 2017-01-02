@@ -31,18 +31,30 @@ import java.util.logging.Level;
 
 public class InventoryMoveItemListener implements Listener {
     private final HopperImprovements plugin;
+    private final boolean disableMoveEvent;
     private final boolean cancelMoveEventIfFull;
     private final boolean stopMoveEventIfFull;
     private final List<RegisteredListener> stoppedListener = new ArrayList<>();
 
     public InventoryMoveItemListener(HopperImprovements plugin) {
         this.plugin = plugin;
+        disableMoveEvent = plugin.getConfig().getBoolean("disable-move-event");
         cancelMoveEventIfFull = plugin.getConfig().getBoolean("cancel-move-event-if-full");
         stopMoveEventIfFull = plugin.getConfig().getBoolean("stop-move-event-if-full");
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onInventoryMoveLow(InventoryMoveItemEvent event) {
+        if (disableMoveEvent) {
+            for (RegisteredListener listener : event.getHandlers().getRegisteredListeners()) {
+                if (listener.getPlugin() != plugin) {
+                    event.getHandlers().unregister(listener);
+                    plugin.getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
+                }
+            }
+            return;
+        }
+
         if (!cancelMoveEventIfFull && !stopMoveEventIfFull) {
             // Should not edit event
             return;

@@ -20,7 +20,11 @@ import de.minebench.hopperimprovements.listeners.InventoryMoveItemListener;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Level;
 
 public final class HopperImprovements extends JavaPlugin {
 
@@ -38,10 +42,18 @@ public final class HopperImprovements extends JavaPlugin {
         reloadConfig();
         debug = getConfig().getBoolean("debug");
 
+        if (getConfig().getBoolean("disable-move-event")) {
+            for (RegisteredListener listener : InventoryMoveItemEvent.getHandlerList().getRegisteredListeners()) {
+                InventoryMoveItemEvent.getHandlerList().unregister(listener);
+                getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
+            }
+        }
+
         if (inventoryMoveItemListener != null) {
             inventoryMoveItemListener.unregister();
         }
         getServer().getPluginManager().registerEvents(inventoryMoveItemListener = new InventoryMoveItemListener(this), this);
+
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

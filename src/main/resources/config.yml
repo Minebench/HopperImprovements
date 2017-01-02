@@ -1,2 +1,4 @@
 debug: false
+disable-move-event: false
 cancel-move-event-if-full: true
+stop-move-event-if-full: false
