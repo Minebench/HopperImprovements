@@ -58,7 +58,7 @@ public final class HopperImprovements extends JavaPlugin {
                     getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
                 }
             }
-        } else {
+        } else if (stoppedListener.size() > 0){
             InventoryMoveItemEvent.getHandlerList().registerAll(stoppedListener);
             getLogger().log(Level.INFO, "Registered " + stoppedListener.size() + " stopped InventoryMoveItemEvent listeners!");
             stoppedListener.clear();
