@@ -44,8 +44,10 @@ public final class HopperImprovements extends JavaPlugin {
 
         if (getConfig().getBoolean("disable-move-event")) {
             for (RegisteredListener listener : InventoryMoveItemEvent.getHandlerList().getRegisteredListeners()) {
-                InventoryMoveItemEvent.getHandlerList().unregister(listener);
-                getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
+                if (listener.getPlugin() != this) {
+                    InventoryMoveItemEvent.getHandlerList().unregister(listener);
+                    getLogger().log(Level.INFO, "Unregistered InventoryMoveItemEvent listener by " + listener.getPlugin().getName());
+                }
             }
         }
 
