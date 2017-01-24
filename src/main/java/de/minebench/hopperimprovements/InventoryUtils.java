@@ -39,7 +39,7 @@ public class InventoryUtils {
             return true;
         }
         for (ItemStack i : inventory.getStorageContents()) {
-            if (i.isSimilar(item) && i.getAmount() < i.getMaxStackSize()) {
+            if (i != null && i.isSimilar(item) && i.getAmount() < i.getMaxStackSize()) {
                 return true;
             }
         }
@@ -96,6 +96,8 @@ public class InventoryUtils {
                             return true;
                         }
                         break;
+                    default:
+                        return false;
                 }
                 break;
             case BEACON:
