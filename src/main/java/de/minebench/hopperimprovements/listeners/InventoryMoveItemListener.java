@@ -60,7 +60,7 @@ public class InventoryMoveItemListener implements Listener {
             return;
         }
 
-        if (InventoryUtils.atLeastOneFitsInInventory(event.getDestination(), event.getItem())) {
+        if (InventoryUtils.atLeastOneFitsInInventory(event.getSource(), event.getDestination(), event.getItem())) {
             if (plugin.isDebug()) {
                 plugin.getLogger().log(Level.INFO, "At least one of the item stack fits into the inventory -> a move event will occur");
             }
