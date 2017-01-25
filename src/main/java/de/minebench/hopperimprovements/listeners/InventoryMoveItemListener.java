@@ -56,6 +56,9 @@ public class InventoryMoveItemListener implements Listener {
         }
 
         if (!cancelMoveEventIfFull) {
+            if (plugin.isDebug()) {
+                plugin.getLogger().log(Level.INFO, "An InventoryMoveItemEvent for a " + event.getItem().getType() + " item occured");
+            }
             // Should not edit event
             return;
         }
