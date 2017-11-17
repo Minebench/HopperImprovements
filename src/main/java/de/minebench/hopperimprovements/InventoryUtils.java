@@ -74,7 +74,7 @@ public class InventoryUtils {
                         if (facing != BlockFace.DOWN && items[4] == null) {
                             return true;
                         }
-                    case NETHER_WARTS:
+                    case NETHER_STALK:
                     case SPIDER_EYE:
                     case SUGAR:
                     case GHAST_TEAR:
