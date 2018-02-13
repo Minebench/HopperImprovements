@@ -27,15 +27,60 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class HopperImprovements extends JavaPlugin {
 
     private InventoryMoveItemListener inventoryMoveItemListener;
     private boolean debug;
     private final List<RegisteredListener> stoppedListener = new ArrayList<>();
-
+    private int PATCHED_PAPER_BUILD = 1327;
+    
     @Override
     public void onEnable() {
+        if (isPatchedPaper()) {
+            Stream.of(
+                    "",
+                    "          _________________________________",
+                    "         |                                 |",
+                    "         |   .--.     .    .--. .---..--.  |",
+                    "         |  |   )   / \\   |   )|    |   )  |",
+                    "         |  |--'   /___\\  |--' |--- |--'   |",
+                    "         |  |     /     \\ |    |    |  \\   |",
+                    "         |  '    '       `'    '---''   `  |",
+                    "         |  Hopper Optimization Detected!  |",
+                    "         |_________________________________|",
+                    "",
+                    "Detected a Paper build that is newer than " + PATCHED_PAPER_BUILD + "! (" + getServer().getVersion() + ")",
+                    "",
+                    "This means that your paper version already has Hopper optimizations-build in which are better than anything this plugin can offer!",
+                    "",
+                    "This plugin would actually lead to these optimizations being less efficient therefore it will be disabled!",
+                    "",
+                    "",
+                    "                                     .+hNm  ",
+                    "                                 `:smMMMMh  ",
+                    "                              -odMMMMMMMM/  ",
+                    "                          `/yNMMMMddMMMMN`  ",
+                    "                       -odMMMMMMy+dMMMMMy   ",
+                    "                   .+yNMMMMMMm+.yMMMMMMM/   ",
+                    "                :smMMMMMMMMh: +NMMMMMMMN    ",
+                    "            .+hMMMMMMMMMNs. :mMMMMMMMMMy    ",
+                    "         :smMMMMMMMMMMd+` .yMMMMMMMMMMM:    ",
+                    "         sdMMMMMMMMMy-   oNMMMMMMMMMMMN     ",
+                    "            -+ydMNo`   :mMMMMMMMMMMMMMy     ",
+                    "                     .hMMMMMMMMMMMMMMM:     ",
+                    "                    .MMMMMMMMMMMMMMMMN      ",
+                    "                    -MMMMMy-/sdMMMMMMs      ",
+                    "                    -MMMm:      -/sdd.      ",
+                    "                    .NN+                    ",
+                    "",
+                    ""
+            ).forEach(m ->  getLogger().log(Level.WARNING, m));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         loadConfig();
         getCommand("hopperimprovements").setExecutor(this);
     }
@@ -88,5 +133,24 @@ public final class HopperImprovements extends JavaPlugin {
 
     public void addStoppedListener(RegisteredListener listener) {
         stoppedListener.add(listener);
+    }
+    
+    /**
+     * Get whether this is a paper server with hopper optimization patches
+     */
+    public boolean isPatchedPaper() {
+        if (getServer().getName().equals("Paper")) {
+            String parts[] = getServer().getVersion().split("-");
+            if (parts.length > 2) {
+                try {
+                    if (Integer.parseInt(parts[2]) >= PATCHED_PAPER_BUILD) {
+                        return true;
+                    }
+                } catch (IllegalArgumentException e) {
+                    getLogger().log(Level.WARNING, "Could not parse paper version! (" + getServer().getVersion() + ")");
+                }
+            }
+        }
+        return false;
     }
 }
