@@ -54,7 +54,7 @@ public final class HopperImprovements extends JavaPlugin {
                     "",
                     "Detected a Paper build that is newer than " + PATCHED_PAPER_BUILD + "! (" + getServer().getVersion() + ")",
                     "",
-                    "This means that your paper version already has Hopper optimizations-build in which are better than anything this plugin can offer!",
+                    "This means that your Paper version already has Hopper optimizations build-in which are better than anything this plugin can offer!",
                     "",
                     "This plugin would actually lead to these optimizations being less efficient therefore it will be disabled!",
                     "",
