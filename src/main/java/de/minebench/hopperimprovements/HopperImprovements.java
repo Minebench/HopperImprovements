@@ -140,7 +140,7 @@ public final class HopperImprovements extends JavaPlugin {
      */
     public boolean isPatchedPaper() {
         if (getServer().getName().equals("Paper")) {
-            String parts[] = getServer().getVersion().split("-");
+            String parts[] = getServer().getVersion().split(" ")[0].split("-");
             if (parts.length > 2) {
                 try {
                     if (Integer.parseInt(parts[2]) >= PATCHED_PAPER_BUILD) {
